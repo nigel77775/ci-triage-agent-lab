@@ -1,0 +1,15 @@
+name: List models
+on:
+  workflow_dispatch:
+permissions: {}
+jobs:
+  list:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Models available to this key (names only)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          curl -s "https://generativelanguage.googleapis.com/v1beta/models?pageSize=200" \
+            -H "x-goog-api-key: ${GEMINI_API_KEY}" \
+            | jq -r '.models[] | select(.supportedGenerationMethods | index("generateContent")) | .name' | sort
