@@ -1,0 +1,19 @@
+name: CLA emulation
+# Емулює те, що бачить зовнішній контриб'ютор upstream: commit status `cla/google` = failure
+# (на upstream його ставить CLA-бот для всіх, хто не підписав CLA; PR#4567 author_association=NONE).
+# Це НЕ workflow зі списку workflow_run -> summarize запускається лише через /summarize-failures.
+on:
+  pull_request:
+permissions:
+  statuses: write
+jobs:
+  cla:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set cla/google = failure on PR head
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh api -X POST "repos/${REPO}/statuses/${SHA}"             -f state=failure -f context=cla/google             -f description="CLA not signed (emulated for PoC)"
