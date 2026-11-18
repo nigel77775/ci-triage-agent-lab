@@ -264,6 +264,10 @@ jobs:
             < /dev/null \
             > gemini_raw_output.json
           jq -c '.stats.tools.byName // {}' gemini_raw_output.json >&2 || true   # PoC debug-only
+          echo '::group::PoC debug: gemini session transcript' >&2   # PoC debug-only
+          find "$HOME/.gemini" -type f \( -name '*.json' -o -name '*.jsonl' \) -path '*chat*' -exec sh -c 'echo "== $1"; cat "$1"' _ {} \; >&2 || true   # PoC debug-only
+          ls -laR "$HOME/.gemini" 2>/dev/null | head -80 >&2 || true   # PoC debug-only
+          echo '::endgroup::' >&2   # PoC debug-only
 
           if jq -e . gemini_raw_output.json >/dev/null 2>&1; then
             jq -r '.response // ""' gemini_raw_output.json > gemini_response.txt
