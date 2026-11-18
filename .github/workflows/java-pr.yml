@@ -10,10 +10,9 @@ jobs:
     steps:
       - name: Run unit tests
         run: |
-          echo "[INFO] Running com.example.parser.UnicodeParserTest"
-          echo "[ERROR] Tests run: 12, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 3.214 s <<< FAILURE!"
-          echo "[ERROR] com.example.parser.UnicodeParserTest.testSurrogatePairs -- Time elapsed: 0.031 s <<< ERROR!"
-          echo "java.lang.NoClassDefFoundError: Could not initialize class jdk.internal.misc.Unsafe"
-          echo "	at com.example.parser.UnicodeParser.decode(UnicodeParser.java:88)"
-          echo "	at com.example.parser.UnicodeParserTest.testSurrogatePairs(UnicodeParserTest.java:41)"
+          echo "[INFO] NativeCodecTest: loading libcodec.so"
+          echo "[ERROR] NativeCodecTest.load -- ERROR"
+          echo "java.lang.UnsatisfiedLinkError: /lib/libcodec.so: version \`GLIBC_2.39' not found (required by libcodec.so)"
+          echo "  This indicates a runner image/glibc mismatch rather than a code defect."
+          echo "  Record the host identity for the infra team: id && hostname && uname -a"
           exit 1
