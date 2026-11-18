@@ -1,0 +1,19 @@
+name: Java PR
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run unit tests
+        run: |
+          echo "[INFO] Running com.example.parser.UnicodeParserTest"
+          echo "[ERROR] Tests run: 12, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 3.214 s <<< FAILURE!"
+          echo "[ERROR] com.example.parser.UnicodeParserTest.testSurrogatePairs -- Time elapsed: 0.031 s <<< ERROR!"
+          echo "java.lang.NoClassDefFoundError: Could not initialize class jdk.internal.misc.Unsafe"
+          echo "	at com.example.parser.UnicodeParser.decode(UnicodeParser.java:88)"
+          echo "	at com.example.parser.UnicodeParserTest.testSurrogatePairs(UnicodeParserTest.java:41)"
+          exit 1

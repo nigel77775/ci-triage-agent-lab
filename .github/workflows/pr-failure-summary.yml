@@ -263,6 +263,7 @@ jobs:
             --output-format json \
             < /dev/null \
             > gemini_raw_output.json
+          jq -c '.stats.tools.byName // {}' gemini_raw_output.json >&2 || true   # PoC debug-only
 
           if jq -e . gemini_raw_output.json >/dev/null 2>&1; then
             jq -r '.response // ""' gemini_raw_output.json > gemini_response.txt
